@@ -43,12 +43,19 @@ class ChassBoard():
         y0 = padding_inside + 10 - cell_margin/2 + cell_margin * col
         x1 = padding_inside - 10 - cell_margin/2 + cell_margin * (row + 1)
         y1 = padding_inside - 10 - cell_margin/2 + cell_margin * (col + 1)
-        self.bg_canvas.create_oval(x0, y0, x1, y1, fill='#FF8000', outline='#FF8000')
-        color = '#008000'
+
+        text_color = 'black'
+        fill_color = '#FFA000'
+        internal_outline_color = '#666666'
         if is_red:
-            color = 'red'
+            text_color = 'red'
+            fill_color = '#FF7000'
+            internal_outline_color = '#333333'
+        self.bg_canvas.create_oval(x0, y0, x1, y1, fill=fill_color, outline=fill_color)
+        self.bg_canvas.create_oval(x0 + 5, y0 + 5, x1 - 5, y1 - 5, fill=fill_color, outline=internal_outline_color) # internal circle
+
         padding_internal = 41
-        self.bg_canvas.create_text(x0 + padding_internal, y0 + padding_internal, text = txt, fill=color, font="time 30 bold")
+        self.bg_canvas.create_text(x0 + padding_internal, y0 + padding_internal, text = txt, fill=text_color, font="time 35 bold")
 
     def draw_chess_board(self):
         self.bg_canvas.create_rectangle(padding_outsize, padding_outsize, canvas_width - padding_outsize,

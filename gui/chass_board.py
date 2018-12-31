@@ -9,11 +9,11 @@ canvas_width = 920
 canvas_height = 1020
 cell_margin = 100
 padding_outsize = 55
-draw_chess_board = 60
+padding_inside = 60
 
 class ChassBoard():
     master = Tk()
-    bg_canvas = Canvas(master, width=canvas_width, height=canvas_height, bg="yellow")
+    bg_canvas = Canvas(master, width=canvas_width, height=canvas_height, bg="white")
 
     def get_master(self):
         return self.master
@@ -31,45 +31,55 @@ class ChassBoard():
 
         self.draw_chess_board()
 
-        self.draw_chess_pieces()
+        self.draw_chess_pieces(8, 9, '兵', True)
+        self.draw_chess_pieces(3, 4, '车', False)
 
         # w.create_line(0, 0, 200, 100)
         # w.create_line(0, 100, 200, 0, fill="red", dash=(4, 4))
         # w.create_rectangle(50, 25, 150, 75, fill="blue")
 
-    def draw_chess_pieces(self):
-        self.bg_canvas.create_oval(0, 0, 60, 60)
+    def draw_chess_pieces(self, row, col, txt, is_red):
+        x0 = padding_inside + 10 - cell_margin/2 + cell_margin * row
+        y0 = padding_inside + 10 - cell_margin/2 + cell_margin * col
+        x1 = padding_inside - 10 - cell_margin/2 + cell_margin * (row + 1)
+        y1 = padding_inside - 10 - cell_margin/2 + cell_margin * (col + 1)
+        self.bg_canvas.create_oval(x0, y0, x1, y1, fill='#FF8000', outline='#FF8000')
+        color = '#008000'
+        if is_red:
+            color = 'red'
+        padding_internal = 41
+        self.bg_canvas.create_text(x0 + padding_internal, y0 + padding_internal, text = txt, fill=color, font="time 30 bold")
 
     def draw_chess_board(self):
         self.bg_canvas.create_rectangle(padding_outsize, padding_outsize, canvas_width - padding_outsize,
                                         canvas_height - padding_outsize, width=3)
-        self.bg_canvas.create_rectangle(draw_chess_board, draw_chess_board, canvas_width - draw_chess_board,
-                                        canvas_height - draw_chess_board, width=2)
-        pos_y = 0 + draw_chess_board
+        self.bg_canvas.create_rectangle(padding_inside, padding_inside, canvas_width - padding_inside,
+                                        canvas_height - padding_inside, width=2)
+        pos_y = 0 + padding_inside
         for _ in range(9):
-            self.bg_canvas.create_line(draw_chess_board, pos_y, canvas_width - draw_chess_board, pos_y)
+            self.bg_canvas.create_line(padding_inside, pos_y, canvas_width - padding_inside, pos_y)
             pos_y += cell_margin
-        pos_x = 0 + draw_chess_board
+        pos_x = 0 + padding_inside
         for _ in range(9):
-            self.bg_canvas.create_line(pos_x, draw_chess_board, pos_x, draw_chess_board + cell_margin * 4)
+            self.bg_canvas.create_line(pos_x, padding_inside, pos_x, padding_inside + cell_margin * 4)
             pos_x += cell_margin
-        pos_x = 0 + draw_chess_board
+        pos_x = 0 + padding_inside
         for _ in range(9):
-            self.bg_canvas.create_line(pos_x, draw_chess_board + cell_margin * 5, pos_x,
-                                       draw_chess_board + cell_margin * 9)
+            self.bg_canvas.create_line(pos_x, padding_inside + cell_margin * 5, pos_x,
+                                       padding_inside + cell_margin * 9)
             pos_x += cell_margin
-        self.bg_canvas.create_line(draw_chess_board + cell_margin * 3, draw_chess_board,
-                                   draw_chess_board + cell_margin * 5, draw_chess_board + cell_margin * 2, dash=(4, 4))
-        self.bg_canvas.create_line(draw_chess_board + cell_margin * 5, draw_chess_board,
-                                   draw_chess_board + cell_margin * 3, draw_chess_board + cell_margin * 2, dash=(4, 4))
-        self.bg_canvas.create_line(draw_chess_board + cell_margin * 3, draw_chess_board + cell_margin * 7,
-                                   draw_chess_board + cell_margin * 5, draw_chess_board + cell_margin * 9, dash=(4, 4))
-        self.bg_canvas.create_line(draw_chess_board + cell_margin * 5, draw_chess_board + cell_margin * 7,
-                                   draw_chess_board + cell_margin * 3, draw_chess_board + cell_margin * 9, dash=(4, 4))
+        self.bg_canvas.create_line(padding_inside + cell_margin * 3, padding_inside,
+                                   padding_inside + cell_margin * 5, padding_inside + cell_margin * 2, dash=(4, 4))
+        self.bg_canvas.create_line(padding_inside + cell_margin * 5, padding_inside,
+                                   padding_inside + cell_margin * 3, padding_inside + cell_margin * 2, dash=(4, 4))
+        self.bg_canvas.create_line(padding_inside + cell_margin * 3, padding_inside + cell_margin * 7,
+                                   padding_inside + cell_margin * 5, padding_inside + cell_margin * 9, dash=(4, 4))
+        self.bg_canvas.create_line(padding_inside + cell_margin * 5, padding_inside + cell_margin * 7,
+                                   padding_inside + cell_margin * 3, padding_inside + cell_margin * 9, dash=(4, 4))
         # ft = Font(family="Helvetica", size=36, weight="bold")
-        self.bg_canvas.create_text(draw_chess_board + cell_margin * 1.5, draw_chess_board + cell_margin * 4.5,
+        self.bg_canvas.create_text(padding_inside + cell_margin * 1.5, padding_inside + cell_margin * 4.5,
                                    text='楚河', font="time 30 bold")
-        self.bg_canvas.create_text(draw_chess_board + cell_margin * 6.5, draw_chess_board + cell_margin * 4.5,
+        self.bg_canvas.create_text(padding_inside + cell_margin * 6.5, padding_inside + cell_margin * 4.5,
                                    text='汉界', font="time 30 bold")
 
     def get_screen_size(window):

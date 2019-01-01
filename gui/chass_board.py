@@ -5,6 +5,7 @@
 # @File    : chess_board.py
 
 from Tkinter import *
+from chess_manager.chess_operation import ChessOperation
 
 canvas_width = 920
 canvas_height = 1020
@@ -12,11 +13,43 @@ cell_margin = 100
 padding_outsize = 55
 padding_inside = 60
 
+padding_bottom = 60
+
 class ChassBoard():
 
-    def __init__(self):
+    def __init__(self, chess_operation):
         self.master = Tk()
-        self.bg_canvas = Canvas(self.master, width=canvas_width, height=canvas_height, bg="white")
+
+        self.master.maxsize(canvas_width, canvas_height + padding_bottom)
+        self.master.minsize(canvas_width, canvas_height + padding_bottom)
+
+        self.chess_board = Label(self.master)
+        self.chess_board.pack()
+        self.bg_canvas = Canvas(self.chess_board, width=canvas_width, height=canvas_height, bg="white")
+
+        self.start_btn = Button(self.master, text ="Reset", command = self.perform_reset)
+        self.start_btn.pack(side=LEFT, padx=20)
+
+        self.start_btn = Button(self.master, text ="Next", command = self.perform_next)
+        self.start_btn.pack(side=LEFT)
+
+        self.chess_board.pack()
+
+        self.chess_operation = chess_operation
+
+    def perform_reset(self):
+        print("perform_reset")
+        # self.init_window()
+
+        chess_piece_list = self.chess_operation.reset()
+
+        print(len(chess_piece_list))
+        for chess_piece in chess_piece_list:
+            row, col, name, type = chess_piece.get_info()
+            self.draw_chess_pieces(row, col, name, type)
+
+    def perform_next(self):
+        print("perform_next")
 
     def get_master(self):
         return self.master
@@ -25,7 +58,7 @@ class ChassBoard():
         screenwidth = self.master.winfo_screenwidth()
         screenheight = self.master.winfo_screenheight()
         size = '%dx%d+%d+%d' % (
-        canvas_width, canvas_height, (screenwidth - canvas_width) / 2, (screenheight - canvas_height) / 2)
+        canvas_width, canvas_height + padding_bottom, (screenwidth - canvas_width) / 2, (screenheight - canvas_height - padding_bottom) / 2)
         self.master.geometry(size)
         # 设置主窗口对象的*标题
         self.master.title("中国象棋AI")
@@ -34,9 +67,6 @@ class ChassBoard():
 
         self.draw_chess_board()
 
-        # w.create_line(0, 0, 200, 100)
-        # w.create_line(0, 100, 200, 0, fill="red", dash=(4, 4))
-        # w.create_rectangle(50, 25, 150, 75, fill="blue")
 
     def draw_chess_pieces(self, row, col, txt, type):
         x0 = padding_inside + 10 - cell_margin/2 + cell_margin * col

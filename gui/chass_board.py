@@ -3,8 +3,6 @@
 
 from Tkinter import *
 
-current_x = 0
-current_y = 0
 canvas_width = 920
 canvas_height = 1020
 cell_margin = 100
@@ -12,8 +10,10 @@ padding_outsize = 55
 padding_inside = 60
 
 class ChassBoard():
-    master = Tk()
-    bg_canvas = Canvas(master, width=canvas_width, height=canvas_height, bg="white")
+
+    def __init__(self):
+        self.master = Tk()
+        self.bg_canvas = Canvas(self.master, width=canvas_width, height=canvas_height, bg="white")
 
     def get_master(self):
         return self.master
@@ -35,7 +35,7 @@ class ChassBoard():
         # w.create_line(0, 100, 200, 0, fill="red", dash=(4, 4))
         # w.create_rectangle(50, 25, 150, 75, fill="blue")
 
-    def draw_chess_pieces(self, row, col, txt, is_red):
+    def draw_chess_pieces(self, row, col, txt, type):
         x0 = padding_inside + 10 - cell_margin/2 + cell_margin * col
         y0 = padding_inside + 10 - cell_margin/2 + cell_margin * row
         x1 = padding_inside - 10 - cell_margin/2 + cell_margin * (col + 1)
@@ -44,7 +44,7 @@ class ChassBoard():
         text_color = 'black'
         fill_color = '#FFA000'
         internal_outline_color = '#666666'
-        if is_red:
+        if type == 1:
             text_color = 'red'
             fill_color = '#FF7000'
             internal_outline_color = '#333333'

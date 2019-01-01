@@ -3,8 +3,9 @@
 
 from Tkinter import *
 from gui.chass_board import ChassBoard
-from operation.chess_piece import ChassPiece
-from operation.util import *
+from chess_manager.chess_piece import ChassPiece
+from chess_manager.util import *
+from chess_manager.chess_operation import ChessOperation
 
 
 
@@ -39,44 +40,14 @@ def main():
   master = chass_board.get_master()
   chass_board.init_window()
 
-  chess_piece_list = []
-  for i in range(chess_total_cnt):
-      chess_piece = ChassPiece(vehicle, 1, 0, 0)
-      chess_piece_list.append(chess_piece)
+  chess_operation = ChessOperation()
+  chess_piece_list = chess_operation.reset()
 
-  chass_board.draw_chess_pieces(0, 0, '车', False)
-  chass_board.draw_chess_pieces(0, 1, '马', False)
-  chass_board.draw_chess_pieces(0, 2, '象', False)
-  chass_board.draw_chess_pieces(0, 3, '士', False)
-  chass_board.draw_chess_pieces(0, 4, '将', False)
-  chass_board.draw_chess_pieces(0, 5, '士', False)
-  chass_board.draw_chess_pieces(0, 6, '象', False)
-  chass_board.draw_chess_pieces(0, 7, '马', False)
-  chass_board.draw_chess_pieces(0, 8, '车', False)
-  chass_board.draw_chess_pieces(2, 1, '炮', False)
-  chass_board.draw_chess_pieces(2, 7, '炮', False)
-  chass_board.draw_chess_pieces(3, 0, '兵', False)
-  chass_board.draw_chess_pieces(3, 2, '兵', False)
-  chass_board.draw_chess_pieces(3, 4, '兵', False)
-  chass_board.draw_chess_pieces(3, 6, '兵', False)
-  chass_board.draw_chess_pieces(3, 8, '兵', False)
+  print(len(chess_piece_list))
+  for chess_piece in chess_piece_list:
+    row, col, name, type = chess_piece.get_info()
+    chass_board.draw_chess_pieces(row, col, name, type)
 
-  chass_board.draw_chess_pieces(9, 0, '车', True)
-  chass_board.draw_chess_pieces(9, 1, '马', True)
-  chass_board.draw_chess_pieces(9, 2, '象', True)
-  chass_board.draw_chess_pieces(9, 3, '士', True)
-  chass_board.draw_chess_pieces(9, 4, '将', True)
-  chass_board.draw_chess_pieces(9, 5, '士', True)
-  chass_board.draw_chess_pieces(9, 6, '象', True)
-  chass_board.draw_chess_pieces(9, 7, '马', True)
-  chass_board.draw_chess_pieces(9, 8, '车', True)
-  chass_board.draw_chess_pieces(9 - 2, 1, '炮', True)
-  chass_board.draw_chess_pieces(9 - 2, 7, '炮', True)
-  chass_board.draw_chess_pieces(9 - 3, 0, '兵', True)
-  chass_board.draw_chess_pieces(9 - 3, 2, '兵', True)
-  chass_board.draw_chess_pieces(9 - 3, 4, '兵', True)
-  chass_board.draw_chess_pieces(9 - 3, 6, '兵', True)
-  chass_board.draw_chess_pieces(9 - 3, 8, '兵', True)
 
 
   # 创建一个主窗口，用于容纳整个GUI程序

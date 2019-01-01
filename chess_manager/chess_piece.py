@@ -1,4 +1,8 @@
-# -*- coding: UTF-8 -*-
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# @Time    : 1/1/2019 1:05 PM
+# @Author  : 王金波
+# @File    : chess_piece.py
 
 # id = -1
 # pos_x = -1

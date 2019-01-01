@@ -1,5 +1,8 @@
-#!/usr/bin/python
-# -*- coding: UTF-8 -*-
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# @Time    : 1/1/2019 9:12 AM
+# @Author  : 王金波
+# @File    : main.py
 
 from Tkinter import *
 from gui.chass_board import ChassBoard

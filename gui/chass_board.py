@@ -1,5 +1,8 @@
-
-# -*- coding: UTF-8 -*-
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# @Time    : 1/1/2019 11:42 AM
+# @Author  : 王金波
+# @File    : chess_board.py
 
 from Tkinter import *
 

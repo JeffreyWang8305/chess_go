@@ -13,38 +13,34 @@ class ChessManager:
 
     def __init__(self):
         self.chess_piece_list = list()
+        self.selected_chess_piece = None
 
     def get_chess_pieses(self):
         return self.chess_piece_list
 
     def rand_run(self):
         print('rand_run')
-        selected_chess_piece = None
-        for chess_piece in self.chess_piece_list:
-            category = chess_piece.get_category()
-            if category == soldier:
-                selected_chess_piece = chess_piece
-                break
-        row = col = -1
-        if selected_chess_piece:
-            print(selected_chess_piece)
-            row, col = selected_chess_piece.perform_go()
-            print(selected_chess_piece)
-        if row != -1 and col != -1 and row <= max_row and col <= max_col:
-            print('row:', row, 'col:', col, 'max_row:', max_row, 'max_col:', max_col)
-            to_be_delete_piece = None
-            for chess_piece in self.chess_piece_list:
-                chess_row, chess_col, _category, _type = chess_piece.get_info()
-                if row == chess_row and col == chess_col and selected_chess_piece.get_id() != chess_piece.get_id():
-                    to_be_delete_piece = chess_piece
-                    break
-            if to_be_delete_piece:
-                self.chess_piece_list.remove(to_be_delete_piece)
+        if self.selected_chess_piece:
+            print(self.selected_chess_piece)
+            row, col = self.selected_chess_piece.perform_go()
+            print(self.selected_chess_piece)
+            if row != -1 and col != -1 and row <= max_row and col <= max_col:
+                print('row:', row, 'col:', col, 'max_row:', max_row, 'max_col:', max_col)
+                to_be_delete_piece = None
+                for chess_piece in self.chess_piece_list:
+                    chess_row, chess_col, _category, _type = chess_piece.get_info()
+                    if row == chess_row and col == chess_col and self.selected_chess_piece.get_id() != chess_piece.get_id():
+                        to_be_delete_piece = chess_piece
+                        break
+                if to_be_delete_piece:
+                    self.chess_piece_list.remove(to_be_delete_piece)
         print(len(self.chess_piece_list))
 
-    def reset(self):
-        if not self.chess_piece_list:
-            self.chess_piece_list = list()
+    def set_selected_chess_piece(self, selected_chess_piece):
+        self.selected_chess_piece = selected_chess_piece
+
+    def reset_data(self):
+        self.chess_piece_list = list()
         self.chess_piece_list.append(ChassPiece(0, 0, 0, 0))  # 0, 0, '车', green
         self.chess_piece_list.append(ChassPiece(0, 1, 1, 0))  # 0, 1, '马', green
         self.chess_piece_list.append(ChassPiece(0, 2, 3, 0))  # 0, 2, '象', green

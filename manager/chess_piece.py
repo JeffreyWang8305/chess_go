@@ -69,7 +69,12 @@ class ChassPiece:
         return self.row, self.col, self.get_name_by_category(self.category), self.type
 
     def perform_go(self):
-        if self.category == soldier and self.row < max_row and self.col < max_col:
+        if self.category == soldier:
             print('perform go, row:', self.row)
-            self.row += 1
+            if self.type == 1 and self.row > 0 and self.col >= 0:
+                self.row -= 1
+            elif self.type == 0 and self.row < max_row and self.col <= max_col:
+                self.row += 1
+        elif self.category == vehicle:
+            pass
         return self.row, self.col

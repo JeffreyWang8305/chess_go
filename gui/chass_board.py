@@ -13,7 +13,7 @@ padding_outsize = 55
 padding_inside = 60
 
 padding_bottom = 60
-
+padding_internal = 41
 
 class ChassBoard:
 
@@ -26,6 +26,7 @@ class ChassBoard:
         self.chess_board = Label(self.master)
         self.chess_board.pack()
         self.bg_canvas = Canvas(self.chess_board, width=canvas_width, height=canvas_height, bg="white")
+        self.bg_canvas.bind("<Button-1>", self.chess_board_onclick)
 
         self.start_btn = Button(self.master, text="Reset", command=self.perform_reset)
         self.start_btn.pack(side=LEFT, padx=10)
@@ -43,8 +44,8 @@ class ChassBoard:
     def perform_reset(self):
         print("perform_reset")
         # self.init_window()
-
-        chess_piece_list = self.chess_manager.reset()
+        self.clear_chess_board()
+        chess_piece_list = self.chess_manager.reset_data()
 
         print(len(chess_piece_list))
         for chess_piece in chess_piece_list:
@@ -60,6 +61,22 @@ class ChassBoard:
         for chess_piece in self.chess_manager.get_chess_pieses():
             row, col, name, type = chess_piece.get_info()
             self.draw_chess_pieces(row, col, name, type)
+
+    def chess_board_onclick(self, events):
+        print(events.x, events.y)
+        clicked_chess_piece = None
+        if self.chess_manager.get_chess_pieses():
+            for chess_piece in self.chess_manager.get_chess_pieses():
+                if chess_piece:
+                    row, col, _name, _type = chess_piece.get_info()
+                    x0, x1, y0, y1 = self.row_col_convert_to_xy(col, row)
+                    if x0 <= events.x <= x1 and y0 <= events.y <= y1:
+                        clicked_chess_piece = chess_piece
+                        print(x0, x1, y0, y1)
+                        print(chess_piece)
+                        break
+            if clicked_chess_piece:
+                self.chess_manager.set_selected_chess_piece(clicked_chess_piece)
 
     def perform_next(self):
         print("perform_next")
@@ -85,10 +102,7 @@ class ChassBoard:
         self.draw_chess_board()
 
     def draw_chess_pieces(self, row, col, txt, type):
-        x0 = padding_inside + 10 - cell_margin/2 + cell_margin * col
-        y0 = padding_inside + 10 - cell_margin/2 + cell_margin * row
-        x1 = padding_inside - 10 - cell_margin/2 + cell_margin * (col + 1)
-        y1 = padding_inside - 10 - cell_margin/2 + cell_margin * (row + 1)
+        x0, x1, y0, y1 = self.row_col_convert_to_xy(col, row)
 
         text_color = 'black'
         fill_color = '#FFA000'
@@ -100,8 +114,14 @@ class ChassBoard:
         self.bg_canvas.create_oval(x0, y0, x1, y1, fill=fill_color, outline=fill_color)
         self.bg_canvas.create_oval(x0 + 5, y0 + 5, x1 - 5, y1 - 5, fill=fill_color, outline=internal_outline_color) # internal circle
 
-        padding_internal = 41
         self.bg_canvas.create_text(x0 + padding_internal, y0 + padding_internal, text = txt, fill=text_color, font="time 35 bold")
+
+    def row_col_convert_to_xy(self, col, row):
+        x0 = padding_inside + 10 - cell_margin / 2 + cell_margin * col
+        y0 = padding_inside + 10 - cell_margin / 2 + cell_margin * row
+        x1 = padding_inside - 10 - cell_margin / 2 + cell_margin * (col + 1)
+        y1 = padding_inside - 10 - cell_margin / 2 + cell_margin * (row + 1)
+        return x0, x1, y0, y1
 
     def draw_chess_board(self):
 

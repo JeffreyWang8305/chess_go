@@ -6,3 +6,5 @@
 
 # chess_total_cnt:
 chess_total_cnt = 32
+max_row = 9
+max_col = 8

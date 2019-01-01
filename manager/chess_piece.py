@@ -10,6 +10,7 @@
 # type = 0        # 0-red, 1-green
 
 import uuid
+from util import *
 
 # categories:
 vehicle = 0     # 车
@@ -68,5 +69,7 @@ class ChassPiece:
         return self.row, self.col, self.get_name_by_category(self.category), self.type
 
     def perform_go(self):
-        if self.category == soldier:
+        if self.category == soldier and self.row < max_row and self.col < max_col:
+            print('perform go, row:', self.row)
             self.row += 1
+        return self.row, self.col

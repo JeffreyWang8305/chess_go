@@ -5,6 +5,7 @@
 # @File    : chess_manager.py
 
 from chess_piece import *
+from util import *
 
 
 class ChessManager:
@@ -24,10 +25,22 @@ class ChessManager:
             if category == soldier:
                 selected_chess_piece = chess_piece
                 break
+        row = col = -1
         if selected_chess_piece:
             print(selected_chess_piece)
-            selected_chess_piece.perform_go()
+            row, col = selected_chess_piece.perform_go()
             print(selected_chess_piece)
+        if row != -1 and col != -1 and row <= max_row and col <= max_col:
+            print('row:', row, 'col:', col, 'max_row:', max_row, 'max_col:', max_col)
+            to_be_delete_piece = None
+            for chess_piece in self.chess_piece_list:
+                chess_row, chess_col, _category, _type = chess_piece.get_info()
+                if row == chess_row and col == chess_col and selected_chess_piece.get_id() != chess_piece.get_id():
+                    to_be_delete_piece = chess_piece
+                    break
+            if to_be_delete_piece:
+                self.chess_piece_list.remove(to_be_delete_piece)
+        print(len(self.chess_piece_list))
 
     def reset(self):
         if not self.chess_piece_list:

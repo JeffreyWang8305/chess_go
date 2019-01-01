@@ -5,7 +5,6 @@
 # @File    : chess_board.py
 
 from Tkinter import *
-from chess_manager.chess_operation import ChessOperation
 
 canvas_width = 920
 canvas_height = 1020
@@ -15,9 +14,10 @@ padding_inside = 60
 
 padding_bottom = 60
 
-class ChassBoard():
 
-    def __init__(self, chess_operation):
+class ChassBoard:
+
+    def __init__(self, chess_manager):
         self.master = Tk()
 
         self.master.maxsize(canvas_width, canvas_height + padding_bottom)
@@ -27,24 +27,37 @@ class ChassBoard():
         self.chess_board.pack()
         self.bg_canvas = Canvas(self.chess_board, width=canvas_width, height=canvas_height, bg="white")
 
-        self.start_btn = Button(self.master, text ="Reset", command = self.perform_reset)
-        self.start_btn.pack(side=LEFT, padx=20)
+        self.start_btn = Button(self.master, text="Reset", command=self.perform_reset)
+        self.start_btn.pack(side=LEFT, padx=10)
 
-        self.start_btn = Button(self.master, text ="Next", command = self.perform_next)
-        self.start_btn.pack(side=LEFT)
+        self.start_btn = Button(self.master, text="RandNext", command=self.perform_randnext)
+        self.start_btn.pack(side=LEFT, padx=10)
+
+        self.start_btn = Button(self.master, text="Next", command=self.perform_next)
+        self.start_btn.pack(side=LEFT, padx=10)
 
         self.chess_board.pack()
 
-        self.chess_operation = chess_operation
+        self.chess_manager = chess_manager
 
     def perform_reset(self):
         print("perform_reset")
         # self.init_window()
 
-        chess_piece_list = self.chess_operation.reset()
+        chess_piece_list = self.chess_manager.reset()
 
         print(len(chess_piece_list))
         for chess_piece in chess_piece_list:
+            row, col, name, type = chess_piece.get_info()
+            self.draw_chess_pieces(row, col, name, type)
+
+    def perform_randnext(self):
+        print("perform_randnext")
+        self.clear_chess_board()
+
+        self.chess_manager.rand_run()
+
+        for chess_piece in self.chess_manager.get_chess_pieses():
             row, col, name, type = chess_piece.get_info()
             self.draw_chess_pieces(row, col, name, type)
 
@@ -67,6 +80,9 @@ class ChassBoard():
 
         self.draw_chess_board()
 
+    def clear_chess_board(self):
+        self.bg_canvas.delete("all")
+        self.draw_chess_board()
 
     def draw_chess_pieces(self, row, col, txt, type):
         x0 = padding_inside + 10 - cell_margin/2 + cell_margin * col
@@ -220,12 +236,4 @@ class ChassBoard():
                                        padding_inside + 5 + cell_margin * row,
                                        padding_inside - 5 + cell_margin * col,
                                        padding_inside + 5 + cell_margin * row)
-
-
-    def get_screen_size(window):
-        return window.winfo_screenwidth(), window.winfo_screenheight()
-
-    def get_window_size(window):
-        return window.winfo_reqwidth(), window.winfo_reqheight()
-
 

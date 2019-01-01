@@ -52,6 +52,9 @@ class ChassBoard:
             row, col, name, type = chess_piece.get_info()
             self.draw_chess_pieces(row, col, name, type)
 
+    '''
+        desc: 将选中的棋子进行随机的移动；需要根据棋子的类型来确定其移动范围
+    '''
     def perform_randnext(self):
         print("perform_randnext")
         self.clear_chess_board()

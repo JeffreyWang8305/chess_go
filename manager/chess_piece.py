@@ -10,6 +10,7 @@
 # type = 0        # 0-red, 1-green
 
 import uuid
+import random
 from util import *
 
 # categories:
@@ -22,7 +23,7 @@ prince = 5      # 将
 soldier = 6     # 兵
 
 
-class ChassPiece:
+class ChessPiece(object):
 
     def __init__(self, chess_row, chess_col, chess_category, chess_type):
         self._id = uuid.uuid1()  # str(chess_category) + str(chess_type)
@@ -68,13 +69,9 @@ class ChassPiece:
     def get_info(self):
         return self.row, self.col, self.get_name_by_category(self.category), self.type
 
-    def perform_go(self):
-        if self.category == soldier:
-            print('perform go, row:', self.row)
-            if self.type == 1 and self.row > 0 and self.col >= 0:
-                self.row -= 1
-            elif self.type == 0 and self.row < max_row and self.col <= max_col:
-                self.row += 1
-        elif self.category == vehicle:
-            pass
-        return self.row, self.col
+    '''
+        desc: 将当前棋子随机移动。（不同category棋子移动规律与范围不同）
+              需要子类覆盖
+    '''
+    def perform_random_go(self, chess_manager):
+        return -1, -1

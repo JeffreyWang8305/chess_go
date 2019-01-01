@@ -1,0 +1,2 @@
+from chess_piece import ChessPiece
+from chess_piece_soldier import ChessPieceSoldier

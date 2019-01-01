@@ -31,18 +31,15 @@ class ChassBoard():
 
         self.draw_chess_board()
 
-        self.draw_chess_pieces(8, 9, '兵', True)
-        self.draw_chess_pieces(3, 4, '车', False)
-
         # w.create_line(0, 0, 200, 100)
         # w.create_line(0, 100, 200, 0, fill="red", dash=(4, 4))
         # w.create_rectangle(50, 25, 150, 75, fill="blue")
 
     def draw_chess_pieces(self, row, col, txt, is_red):
-        x0 = padding_inside + 10 - cell_margin/2 + cell_margin * row
-        y0 = padding_inside + 10 - cell_margin/2 + cell_margin * col
-        x1 = padding_inside - 10 - cell_margin/2 + cell_margin * (row + 1)
-        y1 = padding_inside - 10 - cell_margin/2 + cell_margin * (col + 1)
+        x0 = padding_inside + 10 - cell_margin/2 + cell_margin * col
+        y0 = padding_inside + 10 - cell_margin/2 + cell_margin * row
+        x1 = padding_inside - 10 - cell_margin/2 + cell_margin * (col + 1)
+        y1 = padding_inside - 10 - cell_margin/2 + cell_margin * (row + 1)
 
         text_color = 'black'
         fill_color = '#FFA000'
@@ -91,15 +88,29 @@ class ChassBoard():
 
         # Text such as '楚河' and '汉界'
         self.bg_canvas.create_text(padding_inside + cell_margin * 1.5, padding_inside + cell_margin * 4.5,
-                                   text='楚河', font="time 30 bold")
+                                   text='楚 河', font="隶书 40 bold")
         self.bg_canvas.create_text(padding_inside + cell_margin * 6.5, padding_inside + cell_margin * 4.5,
-                                   text='汉界', font="time 30 bold")
+                                   text='汉 界', font="隶书 40 bold")
 
-        # lable under '炮'
+        # lable under '炮' and '兵'
         self.cannon_label(2, 1)
         self.cannon_label(2, 7)
         self.cannon_label(7, 1)
         self.cannon_label(7, 7)
+
+        self.cannon_label(3, 2)
+        self.cannon_label(3, 4)
+        self.cannon_label(3, 6)
+
+        self.cannon_label(6, 2)
+        self.cannon_label(6, 4)
+        self.cannon_label(6, 6)
+
+        self.soldier_label(3, 0, True)
+        self.soldier_label(6, 0, True)
+
+        self.soldier_label(3, 8, False)
+        self.soldier_label(6, 8, False)
 
     def cannon_label(self, row, col):
         # vertical lines:
@@ -136,6 +147,47 @@ class ChassBoard():
                                    padding_inside + 5 + cell_margin * row,
                                    padding_inside + 5 + cell_margin * col,
                                    padding_inside + 5 + cell_margin * row)
+
+    def soldier_label(self, row, col, is_left):
+        if is_left:
+            self.bg_canvas.create_line(padding_inside + 5 + cell_margin * col,
+                                       padding_inside - 5 + cell_margin * row - 20,
+                                       padding_inside + 5 + cell_margin * col,
+                                       padding_inside - 5 + cell_margin * row)
+            self.bg_canvas.create_line(padding_inside + 5 + cell_margin * col,
+                                       padding_inside + 5 + cell_margin * row + 20,
+                                       padding_inside + 5 + cell_margin * col,
+                                       padding_inside + 5 + cell_margin * row)
+
+            self.bg_canvas.create_line(padding_inside + 5 + cell_margin * col + 20,
+                                       padding_inside - 5 + cell_margin * row,
+                                       padding_inside + 5 + cell_margin * col,
+                                       padding_inside - 5 + cell_margin * row)
+            self.bg_canvas.create_line(padding_inside + 5 + cell_margin * col + 20,
+                                       padding_inside + 5 + cell_margin * row,
+                                       padding_inside + 5 + cell_margin * col,
+                                       padding_inside + 5 + cell_margin * row)
+        else:
+            # vertical lines:
+            self.bg_canvas.create_line(padding_inside - 5 + cell_margin * col,
+                                       padding_inside - 5 + cell_margin * row - 20,
+                                       padding_inside - 5 + cell_margin * col,
+                                       padding_inside - 5 + cell_margin * row)
+
+            self.bg_canvas.create_line(padding_inside - 5 + cell_margin * col,
+                                       padding_inside + 5 + cell_margin * row + 20,
+                                       padding_inside - 5 + cell_margin * col,
+                                       padding_inside + 5 + cell_margin * row)
+            # horizontal lines:
+            self.bg_canvas.create_line(padding_inside - 5 + cell_margin * col - 20,
+                                       padding_inside - 5 + cell_margin * row,
+                                       padding_inside - 5 + cell_margin * col,
+                                       padding_inside - 5 + cell_margin * row)
+            self.bg_canvas.create_line(padding_inside - 5 + cell_margin * col - 20,
+                                       padding_inside + 5 + cell_margin * row,
+                                       padding_inside - 5 + cell_margin * col,
+                                       padding_inside + 5 + cell_margin * row)
+
 
     def get_screen_size(window):
         return window.winfo_screenwidth(), window.winfo_screenheight()

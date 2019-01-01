@@ -45,16 +45,15 @@ class ChessManager:
 
     def get_type_at_pos(self, row, col):
         print('get_type_at_pos:', row, col)
-        type = -1
         for chess_piece in self.chess_piece_list:
             chess_row, chess_col, _category, type = chess_piece.get_info()
-            print('type:', type, 'category:', _category)
+            print('type:', type, 'category:', _category, chess_row, chess_col)
             # 被吃掉的棋子不能是自己，不能是己方的棋子
             if row == chess_row and col == chess_col:
-                print('type:', type, 'category:', _category)
+                print('---> type:', type, 'category:', _category)
                 return type
-        print('type:', type)
-        return type
+        print('xxx-> type:', type)
+        return -1
 
     def set_selected_chess_piece(self, selected_chess_piece):
         self.selected_chess_piece = selected_chess_piece

@@ -6,6 +6,7 @@
 
 from chess_piece import *
 from chess_piece_soldier import *
+from chess_piece_vehicle import *
 from util import *
 
 
@@ -60,7 +61,7 @@ class ChessManager:
 
     def reset_data(self):
         self.chess_piece_list = list()
-        self.chess_piece_list.append(ChessPiece(0, 0, 0, 0))  # 0, 0, '车', green
+        self.chess_piece_list.append(ChessPieceVehicle(0, 0, 0, 0))  # 0, 0, '车', green
         self.chess_piece_list.append(ChessPiece(0, 1, 1, 0))  # 0, 1, '马', green
         self.chess_piece_list.append(ChessPiece(0, 2, 3, 0))  # 0, 2, '象', green
         self.chess_piece_list.append(ChessPiece(0, 3, 4, 0))  # 0, 3, '士', green
@@ -68,7 +69,7 @@ class ChessManager:
         self.chess_piece_list.append(ChessPiece(0, 5, 4, 0))  # 0, 5, '士', green
         self.chess_piece_list.append(ChessPiece(0, 6, 3, 0))  # 0, 6, '象', green
         self.chess_piece_list.append(ChessPiece(0, 7, 1, 0))  # 0, 7, '马', green
-        self.chess_piece_list.append(ChessPiece(0, 8, 0, 0))  # 0, 8, '车', green
+        self.chess_piece_list.append(ChessPieceVehicle(0, 8, 0, 0))  # 0, 8, '车', green
         self.chess_piece_list.append(ChessPiece(2, 1, 2, 0))  # 2, 1, '炮', green
         self.chess_piece_list.append(ChessPiece(2, 7, 2, 0))  # 2, 7, '炮', green
         self.chess_piece_list.append(ChessPieceSoldier(3, 0, 6, 0))  # 3, 0, '兵', green
@@ -77,7 +78,7 @@ class ChessManager:
         self.chess_piece_list.append(ChessPieceSoldier(3, 6, 6, 0))  # 3, 6, '兵', green
         self.chess_piece_list.append(ChessPieceSoldier(3, 8, 6, 0))  # 3, 8, '兵', green
 
-        self.chess_piece_list.append(ChessPiece(9, 0, 0, 1))  # 0, 0, '车', red
+        self.chess_piece_list.append(ChessPieceVehicle(9, 0, 0, 1))  # 0, 0, '车', red
         self.chess_piece_list.append(ChessPiece(9, 1, 1, 1))  # 0, 1, '马', red
         self.chess_piece_list.append(ChessPiece(9, 2, 3, 1))  # 0, 2, '象', red
         self.chess_piece_list.append(ChessPiece(9, 3, 4, 1))  # 0, 3, '士', red
@@ -85,7 +86,7 @@ class ChessManager:
         self.chess_piece_list.append(ChessPiece(9, 5, 4, 1))  # 0, 5, '士', red
         self.chess_piece_list.append(ChessPiece(9, 6, 3, 1))  # 0, 6, '象', red
         self.chess_piece_list.append(ChessPiece(9, 7, 1, 1))  # 0, 7, '马', red
-        self.chess_piece_list.append(ChessPiece(9, 8, 0, 1))  # 0, 8, '车', red
+        self.chess_piece_list.append(ChessPieceVehicle(9, 8, 0, 1))  # 0, 8, '车', red
         self.chess_piece_list.append(ChessPiece(7, 1, 2, 1))  # 2, 1, '炮', red
         self.chess_piece_list.append(ChessPiece(7, 7, 2, 1))  # 2, 7, '炮', red
         self.chess_piece_list.append(ChessPieceSoldier(6, 0, 6, 1))  # 3, 0, '兵', red

@@ -24,14 +24,14 @@ class ChessManager:
     '''
 
     def rand_run(self):
-        print('rand_run')
+        # print('rand_run')
         if self.selected_chess_piece:
-            print(self.selected_chess_piece)
-            row, col = self.selected_chess_piece.perform_random_go(self)  # 移动选中的棋子，返回移动结束后的row, col
-            print(self.selected_chess_piece)
+            # print(self.selected_chess_piece)
+            row, col, is_move = self.selected_chess_piece.perform_random_go(self)  # 移动选中的棋子，返回移动结束后的row, col
+            # print(self.selected_chess_piece)
             # 移除被吃掉的棋子
             if row != -1 and col != -1 and 0 <= row <= max_row and 0 <= col <= max_col:
-                print('row:', row, 'col:', col, 'max_row:', max_row, 'max_col:', max_col)
+                # print('row:', row, 'col:', col, 'max_row:', max_row, 'max_col:', max_col)
                 to_be_delete_piece = None
                 for chess_piece in self.chess_piece_list:
                     chess_row, chess_col, _category, _type = chess_piece.get_info()
@@ -41,18 +41,18 @@ class ChessManager:
                         break
                 if to_be_delete_piece:
                     self.chess_piece_list.remove(to_be_delete_piece)
-        print(len(self.chess_piece_list))
+        # print(len(self.chess_piece_list))
 
     def get_type_at_pos(self, row, col):
-        print('get_type_at_pos:', row, col)
+        # print('get_type_at_pos:', row, col)
         for chess_piece in self.chess_piece_list:
             chess_row, chess_col, _category, type = chess_piece.get_info()
-            print('type:', type, 'category:', _category, chess_row, chess_col)
+            # print('type:', type, 'category:', _category, chess_row, chess_col)
             # 被吃掉的棋子不能是自己，不能是己方的棋子
             if row == chess_row and col == chess_col:
-                print('---> type:', type, 'category:', _category)
+                # print('---> type:', type, 'category:', _category)
                 return type
-        print('xxx-> type:', type)
+        # print('xxx-> type:', type)
         return -1
 
     def set_selected_chess_piece(self, selected_chess_piece):

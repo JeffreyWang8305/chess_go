@@ -47,7 +47,7 @@ class ChassBoard:
         self.clear_chess_board()
         chess_piece_list = self.chess_manager.reset_data()
 
-        print(len(chess_piece_list))
+        # print(len(chess_piece_list))
         for chess_piece in chess_piece_list:
             row, col, name, type = chess_piece.get_info()
             self.draw_chess_pieces(row, col, name, type)
@@ -56,7 +56,7 @@ class ChassBoard:
         desc: 将选中的棋子进行随机的移动；需要根据棋子的类型来确定其移动范围
     '''
     def perform_randnext(self):
-        print("perform_randnext")
+        # print("perform_randnext")
         self.clear_chess_board()
 
         self.chess_manager.rand_run()
@@ -66,7 +66,7 @@ class ChassBoard:
             self.draw_chess_pieces(row, col, name, type)
 
     def chess_board_onclick(self, events):
-        print(events.x, events.y)
+        # print(events.x, events.y)
         clicked_chess_piece = None
         if self.chess_manager.get_chess_pieses():
             for chess_piece in self.chess_manager.get_chess_pieses():
@@ -75,8 +75,8 @@ class ChassBoard:
                     x0, x1, y0, y1 = self.row_col_convert_to_xy(col, row)
                     if x0 <= events.x <= x1 and y0 <= events.y <= y1:
                         clicked_chess_piece = chess_piece
-                        print(x0, x1, y0, y1)
-                        print(chess_piece)
+                        # print(x0, x1, y0, y1)
+                        # print(chess_piece)
                         break
             if clicked_chess_piece:
                 self.chess_manager.set_selected_chess_piece(clicked_chess_piece)

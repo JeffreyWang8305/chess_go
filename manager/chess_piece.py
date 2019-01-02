@@ -72,6 +72,10 @@ class ChessPiece(object):
     '''
         desc: 将当前棋子随机移动。（不同category棋子移动规律与范围不同）
               需要子类覆盖
+        Return:
+            row:
+            col:
+            can_move: 是否可以移动， 1-可以；0-不可以
     '''
     def perform_random_go(self, chess_manager):
-        return -1, -1
+        return -1, -1, 0

@@ -4,6 +4,7 @@
 # @Author  : 王金波
 # @File    : chess_manager.py
 
+import random
 from chess_piece import *
 from chess_piece_soldier import *
 from chess_piece_vehicle import *
@@ -28,7 +29,11 @@ class ChessManager:
         # print('rand_run')
         if self.selected_chess_piece:
             # print(self.selected_chess_piece)
-            row, col, is_move = self.selected_chess_piece.perform_random_go(self)  # 移动选中的棋子，返回移动结束后的row, col
+            # row, col, is_move = self.selected_chess_piece.get_next_position_list(self)  # 移动选中的棋子，返回移动结束后的row, col
+            next_pos_list = self.selected_chess_piece.get_next_position_list(self)  # 移动选中的棋子，返回移动结束后的row, col
+            print(next_pos_list)
+            [(row, col)] = random.sample(next_pos_list, 1)  # TODO： 现在是随机选择，后续修改此处
+            self.selected_chess_piece.set_pos(row, col)
             # print(self.selected_chess_piece)
             # 移除被吃掉的棋子
             if row != -1 and col != -1 and 0 <= row <= max_row and 0 <= col <= max_col:

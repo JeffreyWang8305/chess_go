@@ -42,6 +42,10 @@ class ChessPiece(object):
     def get_type(self):
         return self.type
 
+    def set_pos(self, row, col):
+        self.row = row
+        self.col = col
+
     def get_pos(self):
         return self.row, self.col
 
@@ -78,5 +82,6 @@ class ChessPiece(object):
             col:
             can_move: 是否可以移动， 1-可以；0-不可以
     '''
-    def perform_random_go(self, chess_manager):
-        return -1, -1, 0
+    def get_next_position_list(self, chess_manager):
+        next_pos_list = []
+        return next_pos_list

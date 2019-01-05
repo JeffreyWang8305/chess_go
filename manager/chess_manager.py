@@ -58,6 +58,8 @@ class ChessManager:
 
     def set_selected_chess_piece(self, selected_chess_piece):
         self.selected_chess_piece = selected_chess_piece
+        print('set selected chess piece:')
+        print(selected_chess_piece)
 
     def reset_data(self):
         self.chess_piece_list = list()

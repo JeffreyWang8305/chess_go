@@ -57,29 +57,34 @@ class ChassBoard:
     '''
     def perform_randnext(self):
         # print("perform_randnext")
-        self.clear_chess_board()
-
         self.chess_manager.rand_run()
+        self.clear_and_re_draw()
 
+    def clear_and_re_draw(self):
+        self.clear_chess_board()
         for chess_piece in self.chess_manager.get_chess_pieses():
             row, col, name, type = chess_piece.get_info()
             self.draw_chess_pieces(row, col, name, type)
 
     def chess_board_onclick(self, events):
-        # print(events.x, events.y)
-        clicked_chess_piece = None
+        print(events.x, events.y)
+        clicked_row, clicked_col = self.xy_convert_to_row_col(events.x, events.y)
+        print('clicked on: ', clicked_row, clicked_col)
+        selected_chess_piece = None
         if self.chess_manager.get_chess_pieses():
             for chess_piece in self.chess_manager.get_chess_pieses():
                 if chess_piece:
                     row, col, _name, _type = chess_piece.get_info()
                     x0, x1, y0, y1 = self.row_col_convert_to_xy(col, row)
                     if x0 <= events.x <= x1 and y0 <= events.y <= y1:
-                        clicked_chess_piece = chess_piece
-                        # print(x0, x1, y0, y1)
-                        # print(chess_piece)
+                        selected_chess_piece = chess_piece
                         break
-            if clicked_chess_piece:
-                self.chess_manager.set_selected_chess_piece(clicked_chess_piece)
+            print('selected row:', row, 'column:', col)
+            if selected_chess_piece:
+                self.chess_manager.set_selected_chess_piece(selected_chess_piece)
+                row, col, _name, _type = selected_chess_piece.get_info()
+                self.clear_and_re_draw()
+                self.draw_selected_piece_border(row, col)
 
     def perform_next(self):
         print("perform_next")
@@ -125,6 +130,29 @@ class ChassBoard:
         x1 = padding_inside - 10 - cell_margin / 2 + cell_margin * (col + 1)
         y1 = padding_inside - 10 - cell_margin / 2 + cell_margin * (row + 1)
         return x0, x1, y0, y1
+
+    def xy_convert_to_row_col(self, x, y):
+        converted_x = x - padding_inside
+        converted_y = y - padding_inside
+        col = (converted_x + cell_margin/2)/cell_margin
+        row = (converted_y + cell_margin/2)/cell_margin
+        return row, col
+
+    def draw_selected_piece_border(self, row, col):
+        x_start = padding_inside - cell_margin/2 + col * cell_margin
+        x_end = x_start + 100
+        y_start = padding_inside - cell_margin/2 + row * cell_margin
+        y_end = y_start + 100
+        length = 20
+        self.bg_canvas.create_line(x_start, y_start, x_start + length, y_start, fill="red", width=3)
+        self.bg_canvas.create_line(x_end - length, y_start, x_end, y_start, fill="red", width=3)
+        self.bg_canvas.create_line(x_start, y_end, x_start + length, y_end, fill="red", width=3)
+        self.bg_canvas.create_line(x_end - length, y_end, x_end, y_end, fill="red", width=3)
+
+        self.bg_canvas.create_line(x_start, y_start, x_start, y_start + length, fill="red", width=3)
+        self.bg_canvas.create_line(x_start, y_end - length, x_start, y_end, fill="red", width=3)
+        self.bg_canvas.create_line(x_end, y_start, x_end, y_start + length, fill="red", width=3)
+        self.bg_canvas.create_line(x_end, y_end - length, x_end, y_end, fill="red", width=3)
 
     def draw_chess_board(self):
 

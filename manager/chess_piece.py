@@ -31,7 +31,7 @@ class ChessPiece(object):
         self.type = chess_type
         self.row = chess_row
         self.col = chess_col
-        print('chess_id:%s, category:%s, type:%s' % (self._id, self.category, self.type))
+        print(self.__str__())
 
     def __str__(self):
         return 'id:%s, category:%s, name:%s, type:%s, row:%s, col:%s' % (self._id, self.category, self.get_name_by_category(self.category), self.type, self.row, self.col)
@@ -64,6 +64,7 @@ class ChessPiece(object):
             result = '将'
         elif category_num == soldier:
             result = '兵'
+        result = to_str(result)
         return result
 
     def get_info(self):

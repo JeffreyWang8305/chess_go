@@ -9,7 +9,6 @@ from manager.chess_manager import ChessManager
 
 
 def main():
-  print('hello world!')
   chess_manager = ChessManager()
   chass_board = ChassBoard(chess_manager)
   master = chass_board.get_master()

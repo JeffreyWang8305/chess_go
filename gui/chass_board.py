@@ -31,15 +31,17 @@ class ChassBoard:
         self.start_btn = Button(self.master, text="Reset", command=self.perform_reset)
         self.start_btn.pack(side=LEFT, padx=10)
 
-        self.start_btn = Button(self.master, text="RandNext", command=self.perform_randnext)
-        self.start_btn.pack(side=LEFT, padx=10)
+        # self.start_btn = Button(self.master, text="PredictNext", command=self.predict_next)
+        # self.start_btn.pack(side=LEFT, padx=10)
 
-        self.start_btn = Button(self.master, text="Next", command=self.perform_next)
+        self.start_btn = Button(self.master, text="GoNext", command=self.go_next)
         self.start_btn.pack(side=LEFT, padx=10)
 
         self.chess_board.pack()
 
         self.chess_manager = chess_manager
+
+        self.predict_pos = (-1, -1)
 
     def perform_reset(self):
         print("perform_reset")
@@ -55,10 +57,10 @@ class ChassBoard:
     '''
         desc: 将选中的棋子进行随机的移动；需要根据棋子的类型来确定其移动范围
     '''
-    def perform_randnext(self):
+    def predict_next(self):
         # print("perform_randnext")
-        self.chess_manager.rand_run()
-        self.clear_and_re_draw()
+        row, col = self.chess_manager.predict()
+        self.predict_pos = (row, col)
 
     def clear_and_re_draw(self):
         self.clear_chess_board()
@@ -85,9 +87,14 @@ class ChassBoard:
                 row, col, _name, _type = selected_chess_piece.get_info()
                 self.clear_and_re_draw()
                 self.draw_selected_piece_border(row, col)
+                self.predict_next()
 
-    def perform_next(self):
+    def go_next(self):
         print("perform_next")
+        (row, col) = self.predict_pos
+        print('go_next', row, col)
+        self.chess_manager.go_next(row, col)
+        self.clear_and_re_draw()
 
     def get_master(self):
         return self.master

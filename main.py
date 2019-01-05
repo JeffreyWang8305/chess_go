@@ -13,7 +13,7 @@ def main():
   chass_board = ChassBoard(chess_manager)
   master = chass_board.get_master()
   chass_board.init_window()
-
+  chass_board.perform_reset()
   master.mainloop()
 
 if __name__ == '__main__':

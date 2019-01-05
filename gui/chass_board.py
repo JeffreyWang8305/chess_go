@@ -59,7 +59,13 @@ class ChassBoard:
     '''
     def predict_next(self):
         # print("perform_randnext")
-        row, col = self.chess_manager.predict()
+        next_pos_list = self.chess_manager.predict()
+        # 画出来predict的可走的下一步的全部路线：
+        if next_pos_list and next_pos_list[0]:
+            for (row, col) in next_pos_list:
+                self.draw_predicted_piece_border(row, col)
+
+        row, col = self.chess_manager.random_run(next_pos_list)
         self.predict_pos = (row, col)
 
     def clear_and_re_draw(self):
@@ -144,6 +150,27 @@ class ChassBoard:
         col = (converted_x + cell_margin/2)/cell_margin
         row = (converted_y + cell_margin/2)/cell_margin
         return row, col
+
+    def draw_predicted_piece_border(self, row, col):
+        x_start = padding_inside - cell_margin / 2 + col * cell_margin
+        x_end = x_start + 100
+        y_start = padding_inside - cell_margin / 2 + row * cell_margin
+        y_end = y_start + 100
+        length = 30
+        shift = 10
+        x_start = x_start + shift
+        x_end = x_end - shift
+        y_start = y_start + shift
+        y_end = y_end - shift
+        self.bg_canvas.create_line(x_start , y_start, x_start + length, y_start, fill="red", width=1, dash=(5, 5))
+        self.bg_canvas.create_line(x_end - length, y_start, x_end, y_start, fill="red", width=1, dash=(5, 5))
+        self.bg_canvas.create_line(x_start, y_end, x_start + length, y_end, fill="red", width=1, dash=(5, 5))
+        self.bg_canvas.create_line(x_end - length, y_end, x_end, y_end, fill="red", width=1, dash=(5, 5))
+
+        self.bg_canvas.create_line(x_start, y_start, x_start, y_start + length, fill="red", width=1, dash=(5, 5))
+        self.bg_canvas.create_line(x_start, y_end - length, x_start, y_end, fill="red", width=1, dash=(5, 5))
+        self.bg_canvas.create_line(x_end, y_start, x_end, y_start + length, fill="red", width=1, dash=(5, 5))
+        self.bg_canvas.create_line(x_end, y_end - length, x_end, y_end, fill="red", width=1, dash=(5, 5))
 
     def draw_selected_piece_border(self, row, col):
         x_start = padding_inside - cell_margin/2 + col * cell_margin

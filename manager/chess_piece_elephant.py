@@ -38,33 +38,38 @@ class ChessPieceElephant(ChessPiece):
         south_west_type = chess_manager.get_type_at_pos(self.row + 2, self.col - 2)
         south_east_type = chess_manager.get_type_at_pos(self.row + 2, self.col + 2)
 
+        north_west_obstacle_type = chess_manager.get_type_at_pos(self.row - 1, self.col - 1)
+        north_east_obstacle_type = chess_manager.get_type_at_pos(self.row - 1, self.col + 1)
+        south_west_obstacle_type = chess_manager.get_type_at_pos(self.row + 1, self.col - 1)
+        south_east_obstacle_type = chess_manager.get_type_at_pos(self.row + 1, self.col + 1)
+
         next_pos_list = []  # [(row1, col1), (row2, col2), ...]
         if self.type == 1 and 5 <= self.row <= 9 and 0 <= self.col <= 8:  # 己方棋子
             if self.row != 5:
-                if north_west_type != self.type:  # 竖着走下一步不为己方棋子，可以走
+                if north_west_type != self.type and north_west_obstacle_type == -1:  # 竖着走下一步不为己方棋子，可以走
                     self.append_north_west_position(next_pos_list)
 
-                if north_east_type != self.type:  # 竖着走下一步不为己方棋子，可以走
+                if north_east_type != self.type and north_east_obstacle_type == -1:  # 竖着走下一步不为己方棋子，可以走
                     self.append_north_east_position(next_pos_list)
 
-            if south_west_type != self.type:  # 竖着走下一步不为己方棋子，可以走
+            if south_west_type != self.type and south_west_obstacle_type == -1:  # 竖着走下一步不为己方棋子，可以走
                 self.append_south_west_position(next_pos_list)
 
-            if south_east_type != self.type:  # 竖着走下一步不为己方棋子，可以走
+            if south_east_type != self.type and south_east_obstacle_type == -1:  # 竖着走下一步不为己方棋子，可以走
                 self.append_south_east_position(next_pos_list)
 
         elif self.type == 0 and 0 <= self.row <= 4 and 0 <= self.col <= 8:  # 对方棋子
-            if north_west_type != self.type:  # 竖着走下一步不为己方棋子，可以走
+            if north_west_type != self.type and north_west_obstacle_type == -1:  # 竖着走下一步不为己方棋子，可以走
                 self.append_north_west_position(next_pos_list)
 
-            if north_east_type != self.type:  # 竖着走下一步不为己方棋子，可以走
+            if north_east_type != self.type and north_east_obstacle_type == -1:  # 竖着走下一步不为己方棋子，可以走
                 self.append_north_east_position(next_pos_list)
 
             if self.row != 4:
-                if south_west_type != self.type:  # 竖着走下一步不为己方棋子，可以走
+                if south_west_type != self.type and south_west_obstacle_type == -1:  # 竖着走下一步不为己方棋子，可以走
                     self.append_south_west_position(next_pos_list)
 
-                if south_east_type != self.type:  # 竖着走下一步不为己方棋子，可以走
+                if south_east_type != self.type and south_east_obstacle_type == -1:  # 竖着走下一步不为己方棋子，可以走
                     self.append_south_east_position(next_pos_list)
 
         return next_pos_list

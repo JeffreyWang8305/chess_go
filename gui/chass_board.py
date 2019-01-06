@@ -31,8 +31,8 @@ class ChassBoard:
         self.start_btn = Button(self.master, text="Reset", command=self.perform_reset)
         self.start_btn.pack(side=LEFT, padx=10)
 
-        # self.start_btn = Button(self.master, text="PredictNext", command=self.predict_next)
-        # self.start_btn.pack(side=LEFT, padx=10)
+        self.start_btn = Button(self.master, text="AutoRun", command=self.auto_run)
+        self.start_btn.pack(side=LEFT, padx=10)
 
         self.start_btn = Button(self.master, text="GoNext", command=self.go_next)
         self.start_btn.pack(side=LEFT, padx=10)
@@ -44,21 +44,20 @@ class ChassBoard:
         self.predict_pos = (-1, -1)
 
     def perform_reset(self):
-        print("perform_reset")
-        # self.init_window()
         self.clear_chess_board()
         chess_piece_list = self.chess_manager.reset_data()
 
-        # print(len(chess_piece_list))
         for chess_piece in chess_piece_list:
             row, col, name, type = chess_piece.get_info()
             self.draw_chess_pieces(row, col, name, type)
+
+    def auto_run(self):
+        self.chess_manager.auto_run()
 
     '''
         desc: 将选中的棋子进行随机的移动；需要根据棋子的类型来确定其移动范围
     '''
     def predict_next(self):
-        # print("perform_randnext")
         next_pos_list = self.chess_manager.predict()
         # 画出来predict的可走的下一步的全部路线：
         if next_pos_list and next_pos_list[0]:
@@ -88,12 +87,19 @@ class ChassBoard:
                         selected_chess_piece = chess_piece
                         break
             print('selected row:', row, 'column:', col)
-            if selected_chess_piece:
-                self.chess_manager.set_selected_chess_piece(selected_chess_piece)
-                row, col, _name, _type = selected_chess_piece.get_info()
-                self.clear_and_re_draw()
-                self.draw_selected_piece_border(row, col)
-                self.predict_next()
+            self.select_and_predict(selected_chess_piece)
+
+    def select_and_predict(self, selected_chess_piece):
+        if selected_chess_piece:
+
+            self.clear_and_re_draw()
+            self.chess_manager.set_selected_chess_piece(selected_chess_piece)
+            row, col, _name, _type = selected_chess_piece.get_info()
+            self.draw_selected_piece_border(row, col)
+            self.predict_next()
+            # print('clear_and_re_draw')
+
+            # self.master.update_idletasks()
 
     def go_next(self):
         print("perform_next")
@@ -101,6 +107,7 @@ class ChassBoard:
         print('go_next', row, col)
         self.chess_manager.go_next(row, col)
         self.clear_and_re_draw()
+        # self.master.update_idletasks()
 
     def get_master(self):
         return self.master

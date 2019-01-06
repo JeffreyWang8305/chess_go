@@ -53,6 +53,7 @@ class ChessPieceHorse(ChessPiece):
         desc: 将当前棋子随机移动。（不同category棋子移动规律与范围不同）。
     '''
     def get_next_position_list(self, chess_manager):
+        print('get_next_position_list：马')
         # 马
         north_west1_type = chess_manager.get_type_at_pos(self.row - 2, self.col - 1)
         north_west2_type = chess_manager.get_type_at_pos(self.row - 1, self.col - 2)
@@ -63,7 +64,7 @@ class ChessPieceHorse(ChessPiece):
         south_east1_type = chess_manager.get_type_at_pos(self.row + 2, self.col + 1)
         south_east2_type = chess_manager.get_type_at_pos(self.row + 1, self.col + 2)
 
-        print(north_west1_type, north_west2_type, north_east1_type, north_east2_type, south_west1_type, south_west2_type, south_east1_type, south_east2_type)
+        # print(north_west1_type, north_west2_type, north_east1_type, north_east2_type, south_west1_type, south_west2_type, south_east1_type, south_east2_type)
 
         north_west1_obstacle_type = chess_manager.get_type_at_pos(self.row - 1, self.col)
         north_west2_obstacle_type = chess_manager.get_type_at_pos(self.row, self.col - 1)
@@ -77,24 +78,24 @@ class ChessPieceHorse(ChessPiece):
         next_pos_list = []  # [(row1, col1), (row2, col2), ...]
         if 0 <= self.row <= 9 and 0 <= self.col <= 8:
 
-            if north_west1_type != self.type and north_west1_obstacle_type == -1:
+            if north_west1_type != self.type and north_west1_obstacle_type == TYPE_VACANCY:
                 self.append_north_west1_position(next_pos_list)
-            if north_west2_type != self.type and north_west2_obstacle_type == -1:
+            if north_west2_type != self.type and north_west2_obstacle_type == TYPE_VACANCY:
                 self.append_north_west2_position(next_pos_list)
 
-            if north_east1_type != self.type and north_east1_obstacle_type == -1:
+            if north_east1_type != self.type and north_east1_obstacle_type == TYPE_VACANCY:
                 self.append_north_east1_position(next_pos_list)
-            if north_east2_type != self.type and north_east2_obstacle_type == -1:
+            if north_east2_type != self.type and north_east2_obstacle_type == TYPE_VACANCY:
                 self.append_north_east2_position(next_pos_list)
 
-            if south_west1_type != self.type and south_west1_obstacle_type == -1:
+            if south_west1_type != self.type and south_west1_obstacle_type == TYPE_VACANCY:
                 self.append_south_west1_position(next_pos_list)
-            if south_west2_type != self.type and south_west2_obstacle_type == -1:
+            if south_west2_type != self.type and south_west2_obstacle_type == TYPE_VACANCY:
                 self.append_south_west2_position(next_pos_list)
 
-            if south_east1_type != self.type and south_east1_obstacle_type == -1:
+            if south_east1_type != self.type and south_east1_obstacle_type == TYPE_VACANCY:
                 self.append_south_east1_position(next_pos_list)
-            if south_east2_type != self.type and south_east2_obstacle_type == -1:
+            if south_east2_type != self.type and south_east2_obstacle_type == TYPE_VACANCY:
                 self.append_south_east2_position(next_pos_list)
 
         return next_pos_list

@@ -11,6 +11,7 @@ from manager.chess_manager import ChessManager
 def main():
   chess_manager = ChessManager()
   chass_board = ChassBoard(chess_manager)
+  chess_manager.set_chess_board(chass_board)
   master = chass_board.get_master()
   chass_board.init_window()
   chass_board.perform_reset()

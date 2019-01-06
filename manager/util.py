@@ -9,6 +9,10 @@ chess_total_cnt = 32
 max_row = 9
 max_col = 8
 
+TYPE_MYOWN_SIDE = 1  # 己方
+TYPE_ENEMY_SIDE = 0  # 對方
+TYPE_VACANCY = -1    # 空白
+
 def to_unicode(unicode_or_str):
     if isinstance(unicode_or_str, str):
         value = unicode_or_str.decode('utf-8')

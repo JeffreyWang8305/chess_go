@@ -33,6 +33,7 @@ class ChessPieceSoldier(ChessPiece):
         desc: 将当前棋子随机移动。（不同category棋子移动规律与范围不同）
     '''
     def get_next_position_list(self, chess_manager):
+        print('get_next_position_list：兵')
         # 兵
         north_type = chess_manager.get_type_at_pos(self.row - 1, self.col)
         south_type = chess_manager.get_type_at_pos(self.row + 1, self.col)
@@ -40,7 +41,7 @@ class ChessPieceSoldier(ChessPiece):
         right_type = chess_manager.get_type_at_pos(self.row, self.col + 1)
 
         next_pos_list = []  # [(row1, col1), (row2, col2), ...]
-        if self.type == 1 and self.row >= 0 and self.col >= 0:  # 己方棋子
+        if self.type == TYPE_MYOWN_SIDE and self.row >= 0 and self.col >= 0:  # 己方棋子
             if self.row <= 4:  # 红方棋子过河了
                 if north_type != self.type:  # 竖着走下一步不为己方棋子，可以走
                     self.append_north_position(next_pos_list)
@@ -50,7 +51,7 @@ class ChessPieceSoldier(ChessPiece):
                 if north_type != self.type:  # 竖着走下一步不为己方棋子，可以走
                     self.append_north_position(next_pos_list)
 
-        elif self.type == 0 and self.row <= max_row and self.col <= max_col:  # 对方棋子
+        elif self.type == TYPE_ENEMY_SIDE and self.row <= max_row and self.col <= max_col:  # 对方棋子
             if self.row >= 6:  # 绿方棋子过河了
                 if south_type != self.type:  # 竖着走下一步不为己方棋子，可以走
                     self.append_south_position(next_pos_list)

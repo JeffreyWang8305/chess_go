@@ -77,7 +77,7 @@ class ChassBoard:
             self.draw_chess_pieces(row, col, name, type)
 
     def chess_board_onclick(self, events):
-        print(events.x, events.y)
+        # print(events.x, events.y)
         clicked_row, clicked_col = self.xy_convert_to_row_col(events.x, events.y)
         print('clicked on: ', clicked_row, clicked_col)
         selected_chess_piece = None
@@ -105,13 +105,14 @@ class ChassBoard:
 
 
     def go_next(self):
-        print("perform_next")
+        # print("perform_next")
         (row, col) = self.predict_pos
-        print('go_next', row, col)
-        self.chess_manager.go_next(row, col)
+        # print('go_next', row, col)
+        is_game_over, success_type = self.chess_manager.go_next(row, col)
         if OPEN_ANIMATION:
             self.clear_and_re_draw()
             self.master.update_idletasks()
+        return is_game_over, success_type
 
     def get_master(self):
         return self.master

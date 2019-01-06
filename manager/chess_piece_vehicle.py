@@ -14,7 +14,6 @@ class ChessPieceVehicle(ChessPiece):
               车 代码规则不分敌我双方
     '''
     def get_next_position_list(self, chess_manager):
-        print('get_next_position_list：车')
         next_pos_list = []
         if 0 <= self.row <= max_row and self.col <= max_col:
             for i in range(1, max_row + 1):

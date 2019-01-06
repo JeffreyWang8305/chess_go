@@ -13,7 +13,6 @@ class ChessPieceCannon(ChessPiece):
         desc: 将当前棋子随机移动。（不同category棋子移动规律与范围不同）
     '''
     def get_next_position_list(self, chess_manager):
-        print('get_next_position_list：炮')
         next_pos_list = []
         if 0 <= self.row <= max_row and self.col <= max_col:
 

@@ -53,7 +53,6 @@ class ChessPieceHorse(ChessPiece):
         desc: 将当前棋子随机移动。（不同category棋子移动规律与范围不同）。
     '''
     def get_next_position_list(self, chess_manager):
-        print('get_next_position_list：马')
         # 马
         north_west1_type = chess_manager.get_type_at_pos(self.row - 2, self.col - 1)
         north_west2_type = chess_manager.get_type_at_pos(self.row - 1, self.col - 2)

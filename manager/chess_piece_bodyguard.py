@@ -32,7 +32,6 @@ class ChessPieceBoyguard(ChessPiece):
         (8,4)->(7,5)
     '''
     def get_next_position_list(self, chess_manager):
-        print('get_next_position_list：士')
         # 士
         next_pos_list = []  # [(row1, col1), (row2, col2), ...]
         if self.type == TYPE_MYOWN_SIDE and 7 <= self.row <= 9 and 3 <= self.col <= 5:  # 己方棋子

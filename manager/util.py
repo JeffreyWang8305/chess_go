@@ -13,10 +13,10 @@ TYPE_MYOWN_SIDE = 1  # 己方
 TYPE_ENEMY_SIDE = 0  # 對方
 TYPE_VACANCY = -1    # 空白
 
-OPEN_ANIMATION = True
-EPOCH = 20
-ONE_EPOCH_TIME = 1
-PREDICT_TIME = 0.5
+OPEN_ANIMATION = False
+EPOCH = 200
+ONE_EPOCH_TIME = 0.2
+PREDICT_TIME = 0.1
 
 def to_unicode(unicode_or_str):
     if isinstance(unicode_or_str, str):

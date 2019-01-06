@@ -34,7 +34,7 @@ class ChessPiece(object):
         print(self.__str__())
 
     def __str__(self):
-        return 'id:%s, category:%s, name:%s, type:%s, row:%s, col:%s' % (self._id, self.category, self.get_name_by_category(self.category), self.type, self.row, self.col)
+        return 'id:%s, category:%s, name:%s, type:%s, row:%s, col:%s' % (self._id, self.category, self.get_name_by_category(), self.type, self.row, self.col)
 
     def get_category(self):
         return self.category
@@ -52,27 +52,27 @@ class ChessPiece(object):
     def get_id(self):
         return self._id
 
-    def get_name_by_category(self, category_num):
+    def get_name_by_category(self):
         result = ''
-        if category_num == vehicle:
+        if self.category == vehicle:
             result = '车'
-        elif category_num == horse:
+        elif self.category == horse:
             result = '马'
-        elif category_num == cannon:
+        elif self.category == cannon:
             result = '炮'
-        elif category_num == elephant:
+        elif self.category == elephant:
             result = '象'
-        elif category_num == bodyguard:
+        elif self.category == bodyguard:
             result = '仕'
-        elif category_num == prince:
+        elif self.category == prince:
             result = '将'
-        elif category_num == soldier:
+        elif self.category == soldier:
             result = '兵'
         result = to_str(result)
         return result
 
     def get_info(self):
-        return self.row, self.col, self.get_name_by_category(self.category), self.type
+        return self.row, self.col, self.get_name_by_category(), self.type
 
     '''
         desc: 将当前棋子随机移动。（不同category棋子移动规律与范围不同）

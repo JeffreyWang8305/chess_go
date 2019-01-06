@@ -24,6 +24,7 @@ class ChessManager:
         self.selected_chess_piece = None
         self.is_my_turn = True
         self.chess_board = None
+        self.cnt = 0
         self.EPOCH = EPOCH
         self.ONE_EPOCH_TIME = ONE_EPOCH_TIME
         self.PREDICT_TIME = PREDICT_TIME
@@ -35,21 +36,23 @@ class ChessManager:
 
         if self.is_my_turn:
             print('my turn')
-            self.select_chess_by_type_and_go(TYPE_MYOWN_SIDE)
+            is_game_over, success_type = self.select_chess_by_type_and_go(TYPE_MYOWN_SIDE)
             self.is_my_turn = False
         else:
             print('not my turn')
-            self.select_chess_by_type_and_go(TYPE_ENEMY_SIDE)
+            is_game_over, success_type = self.select_chess_by_type_and_go(TYPE_ENEMY_SIDE)
             self.is_my_turn = True
 
         # N秒后停止定时器
-        self.EPOCH -= 1
-        if self.EPOCH < 0:
+        self.cnt += 1
+        print('cnt:', self.cnt)
+        if self.cnt > self.EPOCH or is_game_over:
             timer.cancel()
             self.chess_board.clear_and_re_draw()
-            print('complete!')
+            print('complete! is_game_over: ', is_game_over, 'success_type:', success_type)
 
     def select_chess_by_type_and_go(self, type):
+        is_game_over = False
         chess_list = []
         for chess_piece in self.chess_piece_list:
             if type == chess_piece.get_type():
@@ -60,20 +63,26 @@ class ChessManager:
                 next_pos_list = self.predict()
                 if next_pos_list and next_pos_list[0]:
                     chess_list.append(chess_piece)
-                else:
-                    print('cann not move item!!!')
+                # else:
+                #     print('cann not move item!!!')
 
-        print('len', len(chess_list), 'type', type)
+        # print('len', len(chess_list), 'type', type)
 
         if chess_list and chess_list[0]:
             [self.selected_chess_piece] = random.sample(chess_list, 1)  # TODO： 选择某个棋子现在是随机选择，后续修改此处
         else:
             print('GAME OVER!!! Cannot move!')
+            is_game_over = True
+            if self.selected_chess_piece.get_type() == TYPE_ENEMY_SIDE:
+                success_type = TYPE_MYOWN_SIDE
+            else:
+                success_type = TYPE_ENEMY_SIDE
 
         if self.selected_chess_piece:
             self.chess_board.select_and_predict(self.selected_chess_piece)
             time.sleep(self.PREDICT_TIME)  # sleep N 秒
-            self.chess_board.go_next()
+            is_game_over, success_type = self.chess_board.go_next()
+        return is_game_over, success_type
 
     def get_chess_pieses(self):
         return self.chess_piece_list
@@ -85,7 +94,7 @@ class ChessManager:
     def predict(self):
         if self.selected_chess_piece:
             next_pos_list = self.selected_chess_piece.get_next_position_list(self)  # 移动选中的棋子，返回移动结束后的row, col
-            print(next_pos_list)
+            # print(next_pos_list)
         return next_pos_list
 
     def random_run(self, next_pos_list):
@@ -96,6 +105,8 @@ class ChessManager:
         return row, col
 
     def go_next(self, row, col):
+        is_game_over = False
+        success_type = TYPE_VACANCY
         if self.selected_chess_piece and row > -1 and col > -1:
             self.selected_chess_piece.set_pos(row, col)
             # 移除被吃掉的棋子
@@ -109,8 +120,14 @@ class ChessManager:
                         break
                 if to_be_delete_piece:
                     self.chess_piece_list.remove(to_be_delete_piece)
+                    print 'delete chess piece:', to_be_delete_piece.get_name_by_category()
+                    print(to_be_delete_piece)
+                    if to_be_delete_piece.get_category() == prince:
+                        is_game_over = True
+                        success_type = self.selected_chess_piece.get_type()
         else:
             print('can not go next, maybe not select, or pos error!!! row:', row, 'col:', col)
+        return is_game_over, success_type
 
     def auto_run(self):
         print('chess manager: auto_run')
@@ -127,7 +144,7 @@ class ChessManager:
 
     def set_selected_chess_piece(self, selected_chess_piece):
         self.selected_chess_piece = selected_chess_piece
-        print('set_selected_chess_piece:', selected_chess_piece)
+        # print('set_selected_chess_piece:', selected_chess_piece)
 
     def reset_data(self):
         self.chess_piece_list = list()

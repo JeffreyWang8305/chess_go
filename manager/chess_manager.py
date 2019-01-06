@@ -4,9 +4,8 @@
 # @Author  : 王金波
 # @File    : chess_manager.py
 
-import random
 import time
-from chess_piece import *
+import threading
 from chess_piece_soldier import *
 from chess_piece_vehicle import *
 from chess_piece_prince import *
@@ -25,6 +24,56 @@ class ChessManager:
         self.selected_chess_piece = None
         self.is_my_turn = True
         self.chess_board = None
+        self.EPOCH = EPOCH
+        self.ONE_EPOCH_TIME = ONE_EPOCH_TIME
+        self.PREDICT_TIME = PREDICT_TIME
+
+    def fun_timer(self):
+        global timer
+        timer = threading.Timer(self.ONE_EPOCH_TIME, self.fun_timer)
+        timer.start()
+
+        if self.is_my_turn:
+            print('my turn')
+            self.select_chess_by_type_and_go(TYPE_MYOWN_SIDE)
+            self.is_my_turn = False
+        else:
+            print('not my turn')
+            self.select_chess_by_type_and_go(TYPE_ENEMY_SIDE)
+            self.is_my_turn = True
+
+        # N秒后停止定时器
+        self.EPOCH -= 1
+        if self.EPOCH < 0:
+            timer.cancel()
+            self.chess_board.clear_and_re_draw()
+            print('complete!')
+
+    def select_chess_by_type_and_go(self, type):
+        chess_list = []
+        for chess_piece in self.chess_piece_list:
+            if type == chess_piece.get_type():
+
+                # 过滤掉不能移动的棋子
+                self.set_selected_chess_piece(chess_piece)
+                _row, _col, _name, _type = chess_piece.get_info()
+                next_pos_list = self.predict()
+                if next_pos_list and next_pos_list[0]:
+                    chess_list.append(chess_piece)
+                else:
+                    print('cann not move item!!!')
+
+        print('len', len(chess_list), 'type', type)
+
+        if chess_list and chess_list[0]:
+            [self.selected_chess_piece] = random.sample(chess_list, 1)  # TODO： 选择某个棋子现在是随机选择，后续修改此处
+        else:
+            print('GAME OVER!!! Cannot move!')
+
+        if self.selected_chess_piece:
+            self.chess_board.select_and_predict(self.selected_chess_piece)
+            time.sleep(self.PREDICT_TIME)  # sleep N 秒
+            self.chess_board.go_next()
 
     def get_chess_pieses(self):
         return self.chess_piece_list
@@ -65,32 +114,8 @@ class ChessManager:
 
     def auto_run(self):
         print('chess manager: auto_run')
-        cnt = 500
-        while cnt > 0:
-            if self.is_my_turn:
-                print('my turn')
-                self.select_chess_by_type_and_go(TYPE_MYOWN_SIDE)
-                self.is_my_turn = False
-            else:
-                print('not my turn')
-                self.select_chess_by_type_and_go(TYPE_ENEMY_SIDE)
-                self.is_my_turn = True
-            # time.sleep(1)  # sleep N 秒
-            cnt -= 1
-        print('complete!')
-
-    def select_chess_by_type_and_go(self, type):
-        chess_list = []
-        for chess_piece in self.chess_piece_list:
-            if type == chess_piece.get_type():
-                chess_list.append(chess_piece)
-        print('len', len(chess_list), 'type', type)
-        if chess_list and chess_list[0]:
-            [self.selected_chess_piece] = random.sample(chess_list, 1)  # TODO： 现在是随机选择，后续修改此处
-        if self.selected_chess_piece:
-            self.chess_board.select_and_predict(self.selected_chess_piece)
-            # time.sleep(1)  # sleep N 秒
-            self.chess_board.go_next()
+        timer = threading.Timer(1, self.fun_timer)
+        timer.start()
 
     def get_type_at_pos(self, row, col):
         for chess_piece in self.chess_piece_list:

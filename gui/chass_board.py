@@ -5,6 +5,7 @@
 # @File    : chess_board.py
 
 from Tkinter import *
+from manager.util import *
 
 canvas_width = 920
 canvas_height = 1020
@@ -60,12 +61,14 @@ class ChassBoard:
     def predict_next(self):
         next_pos_list = self.chess_manager.predict()
         # 画出来predict的可走的下一步的全部路线：
-        if next_pos_list and next_pos_list[0]:
-            for (row, col) in next_pos_list:
-                self.draw_predicted_piece_border(row, col)
+        if OPEN_ANIMATION:
+            if next_pos_list and next_pos_list[0]:
+                for (row, col) in next_pos_list:
+                    self.draw_predicted_piece_border(row, col)
 
         row, col = self.chess_manager.random_run(next_pos_list)
         self.predict_pos = (row, col)
+        return row, col
 
     def clear_and_re_draw(self):
         self.clear_chess_board()
@@ -92,22 +95,23 @@ class ChassBoard:
     def select_and_predict(self, selected_chess_piece):
         if selected_chess_piece:
 
-            self.clear_and_re_draw()
             self.chess_manager.set_selected_chess_piece(selected_chess_piece)
             row, col, _name, _type = selected_chess_piece.get_info()
-            self.draw_selected_piece_border(row, col)
+            if OPEN_ANIMATION:
+                self.clear_and_re_draw()
+                self.draw_selected_piece_border(row, col)
+                self.master.update_idletasks()
             self.predict_next()
-            # print('clear_and_re_draw')
 
-            # self.master.update_idletasks()
 
     def go_next(self):
         print("perform_next")
         (row, col) = self.predict_pos
         print('go_next', row, col)
         self.chess_manager.go_next(row, col)
-        self.clear_and_re_draw()
-        # self.master.update_idletasks()
+        if OPEN_ANIMATION:
+            self.clear_and_re_draw()
+            self.master.update_idletasks()
 
     def get_master(self):
         return self.master

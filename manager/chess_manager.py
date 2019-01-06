@@ -10,6 +10,7 @@ from chess_piece_soldier import *
 from chess_piece_vehicle import *
 from chess_piece_prince import *
 from chess_piece_bodyguard import *
+from chess_piece_elephant import *
 from util import *
 
 
@@ -81,11 +82,11 @@ class ChessManager:
         self.chess_piece_list = list()
         self.chess_piece_list.append(ChessPieceVehicle(0, 0, 0, 0))  # 0, 0, '车', green
         self.chess_piece_list.append(ChessPiece(0, 1, 1, 0))  # 0, 1, '马', green
-        self.chess_piece_list.append(ChessPiece(0, 2, 3, 0))  # 0, 2, '象', green
+        self.chess_piece_list.append(ChessPieceElephant(0, 2, 3, 0))  # 0, 2, '象', green
         self.chess_piece_list.append(ChessPieceBoyguard(0, 3, 4, 0))  # 0, 3, '士', green
         self.chess_piece_list.append(ChessPiecePrince(0, 4, 5, 0))  # 0, 4, '将'  green
         self.chess_piece_list.append(ChessPieceBoyguard(0, 5, 4, 0))  # 0, 5, '士', green
-        self.chess_piece_list.append(ChessPiece(0, 6, 3, 0))  # 0, 6, '象', green
+        self.chess_piece_list.append(ChessPieceElephant(0, 6, 3, 0))  # 0, 6, '象', green
         self.chess_piece_list.append(ChessPiece(0, 7, 1, 0))  # 0, 7, '马', green
         self.chess_piece_list.append(ChessPieceVehicle(0, 8, 0, 0))  # 0, 8, '车', green
         self.chess_piece_list.append(ChessPiece(2, 1, 2, 0))  # 2, 1, '炮', green
@@ -98,11 +99,11 @@ class ChessManager:
 
         self.chess_piece_list.append(ChessPieceVehicle(9, 0, 0, 1))  # 0, 0, '车', red
         self.chess_piece_list.append(ChessPiece(9, 1, 1, 1))  # 0, 1, '马', red
-        self.chess_piece_list.append(ChessPiece(9, 2, 3, 1))  # 0, 2, '象', red
+        self.chess_piece_list.append(ChessPieceElephant(9, 2, 3, 1))  # 0, 2, '象', red
         self.chess_piece_list.append(ChessPieceBoyguard(9, 3, 4, 1))  # 0, 3, '士', red
         self.chess_piece_list.append(ChessPiecePrince(9, 4, 5, 1))  # 0, 4, '将'  red
         self.chess_piece_list.append(ChessPieceBoyguard(9, 5, 4, 1))  # 0, 5, '士', red
-        self.chess_piece_list.append(ChessPiece(9, 6, 3, 1))  # 0, 6, '象', red
+        self.chess_piece_list.append(ChessPieceElephant(9, 6, 3, 1))  # 0, 6, '象', red
         self.chess_piece_list.append(ChessPiece(9, 7, 1, 1))  # 0, 7, '马', red
         self.chess_piece_list.append(ChessPieceVehicle(9, 8, 0, 1))  # 0, 8, '车', red
         self.chess_piece_list.append(ChessPiece(7, 1, 2, 1))  # 2, 1, '炮', red

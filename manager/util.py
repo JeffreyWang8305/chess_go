@@ -14,9 +14,9 @@ TYPE_ENEMY_SIDE = 0  # 對方
 TYPE_VACANCY = -1    # 空白
 
 OPEN_ANIMATION = False
-EPOCH = 200
-ONE_EPOCH_TIME = 0.2
-PREDICT_TIME = 0.1
+EPOCH = 400
+ONE_EPOCH_TIME = 0.01
+PREDICT_TIME = 0.01
 
 def to_unicode(unicode_or_str):
     if isinstance(unicode_or_str, str):

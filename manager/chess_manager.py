@@ -29,11 +29,30 @@ class ChessManager:
         self.ONE_EPOCH_TIME = ONE_EPOCH_TIME
         self.PREDICT_TIME = PREDICT_TIME
 
+    def reset(self):
+        self.cnt = 0
+
     def fun_timer(self):
         global timer
         timer = threading.Timer(self.ONE_EPOCH_TIME, self.fun_timer)
         timer.start()
 
+        is_game_over, success_type = self.perform_select_and_go()
+
+        # N秒后停止定时器
+        self.cnt += 1
+        print('cnt:', self.cnt)
+        print('is_game_over:', is_game_over)
+        if self.cnt > self.EPOCH or is_game_over:
+            timer.cancel()
+            self.chess_board.clear_and_re_draw()
+            print('complete! is_game_over: ', is_game_over, 'success_type:', success_type)
+            if success_type == TYPE_MYOWN_SIDE:
+                print('己方获胜！')
+            else:
+                print('敌方获胜！')
+
+    def perform_select_and_go(self):
         if self.is_my_turn:
             print('my turn')
             is_game_over, success_type = self.select_chess_by_type_and_go(TYPE_MYOWN_SIDE)
@@ -42,14 +61,7 @@ class ChessManager:
             print('not my turn')
             is_game_over, success_type = self.select_chess_by_type_and_go(TYPE_ENEMY_SIDE)
             self.is_my_turn = True
-
-        # N秒后停止定时器
-        self.cnt += 1
-        print('cnt:', self.cnt)
-        if self.cnt > self.EPOCH or is_game_over:
-            timer.cancel()
-            self.chess_board.clear_and_re_draw()
-            print('complete! is_game_over: ', is_game_over, 'success_type:', success_type)
+        return is_game_over, success_type
 
     def select_chess_by_type_and_go(self, type):
         is_game_over = False
@@ -77,10 +89,12 @@ class ChessManager:
                 success_type = TYPE_MYOWN_SIDE
             else:
                 success_type = TYPE_ENEMY_SIDE
+            return is_game_over, success_type
 
         if self.selected_chess_piece:
             self.chess_board.select_and_predict(self.selected_chess_piece)
-            time.sleep(self.PREDICT_TIME)  # sleep N 秒
+            if OPEN_ANIMATION:
+                time.sleep(self.PREDICT_TIME)  # sleep N 秒
             is_game_over, success_type = self.chess_board.go_next()
         return is_game_over, success_type
 
@@ -131,8 +145,26 @@ class ChessManager:
 
     def auto_run(self):
         print('chess manager: auto_run')
-        timer = threading.Timer(1, self.fun_timer)
-        timer.start()
+
+        if OPEN_ANIMATION:
+            timer = threading.Timer(1, self.fun_timer)
+            timer.start()
+        else:
+            while True:
+                is_game_over, success_type = self.perform_select_and_go()
+
+                # N秒后停止定时器
+                self.cnt += 1
+                print('cnt:', self.cnt)
+                print('is_game_over:', is_game_over)
+                if self.cnt > self.EPOCH or is_game_over:
+                    self.chess_board.clear_and_re_draw()
+                    print('complete! is_game_over: ', is_game_over, 'success_type:', success_type)
+                    if success_type == TYPE_MYOWN_SIDE:
+                        print('己方获胜！')
+                    else:
+                        print('敌方获胜！')
+                    break
 
     def get_type_at_pos(self, row, col):
         for chess_piece in self.chess_piece_list:
@@ -147,6 +179,8 @@ class ChessManager:
         # print('set_selected_chess_piece:', selected_chess_piece)
 
     def reset_data(self):
+        self.reset()
+
         self.chess_piece_list = list()
         self.chess_piece_list.append(ChessPieceVehicle(0, 0, 0, 0))  # 0, 0, '车', green
         self.chess_piece_list.append(ChessPieceHorse(0, 1, 1, 0))  # 0, 1, '马', green

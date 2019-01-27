@@ -47,11 +47,24 @@ class ChessPiecePrince(ChessPiece):
             # 横着走:
             self.update_go_horizontal_position(left_type, next_pos_list, right_type)
 
+            # check:
+            for next_pos in next_pos_list:
+                (row, col) = next_pos
+                assert row >= 7 or row <= 9 or col >= 3 or col <= 5
+                # print('!!!!!!!!!!!!!!!!!!!!!!!! ERROR HAPPENED!!!!!!!!!!!!!!!!!, prince go error')
+
+
         elif self.type == TYPE_ENEMY_SIDE and 0 <= self.row <= 2 and 3 <= self.col <= 5:  # 对方棋子
             # 竖着走：
             self.update_go_vertical_position(next_pos_list, north_type, south_type)
             # 横着走:
             self.update_go_horizontal_position(left_type, next_pos_list, right_type)
+
+            # check:
+            for next_pos in next_pos_list:
+                (row, col) = next_pos
+                assert row >= 0 or row <= 2 or col >= 3 or col <= 5
+                # print('!!!!!!!!!!!!!!!!!!!!!!!! ERROR HAPPENED!!!!!!!!!!!!!!!!!, prince go error')
         return next_pos_list
 
     def update_go_vertical_position(self, next_pos_list, north_type, south_type):
